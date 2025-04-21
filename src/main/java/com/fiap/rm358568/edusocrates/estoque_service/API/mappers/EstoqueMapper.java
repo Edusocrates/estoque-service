@@ -5,7 +5,9 @@ import com.fiap.rm358568.edusocrates.estoque_service.API.requests.AtualizarEstoq
 import com.fiap.rm358568.edusocrates.estoque_service.API.requests.CriarEstoqueRequest;
 import com.fiap.rm358568.edusocrates.estoque_service.API.responses.EstoqueResponse;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.entities.Estoque;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EstoqueMapper {
 
     public static Estoque toDomain(CriarEstoqueRequest request) {
