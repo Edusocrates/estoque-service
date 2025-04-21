@@ -4,6 +4,7 @@ import com.fiap.rm358568.edusocrates.estoque_service.API.exceptions.EstoqueNotFo
 import com.fiap.rm358568.edusocrates.estoque_service.aplicacao.usecases.CreditarEstoqueUseCase;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.entities.Estoque;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.gateways.EstoqueGateway;
+import com.fiap.rm358568.edusocrates.estoque_service.infraestrutura.messaging.producers.EstoqueProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,8 @@ public class CreditarEstoqueUseCaseHandler implements CreditarEstoqueUseCase {
 
     private EstoqueGateway estoqueGateway;
 
+    private EstoqueProducer estoqueProducer;
+
 
     @Override
     public Estoque executar(String sku, int quantidade) {
@@ -26,6 +29,7 @@ public class CreditarEstoqueUseCaseHandler implements CreditarEstoqueUseCase {
 
         estoque.adicionar(quantidade);
         Estoque estoqueAtualizado = estoqueGateway.salvar(estoque);
+        estoqueProducer.enviarAtualizacaoEstoque(estoqueAtualizado);
         log.info("Estoque atualizado: {}", estoqueAtualizado);
         return estoqueAtualizado;
     }
