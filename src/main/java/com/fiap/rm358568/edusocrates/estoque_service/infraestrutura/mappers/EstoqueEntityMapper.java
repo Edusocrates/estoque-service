@@ -3,11 +3,10 @@ package com.fiap.rm358568.edusocrates.estoque_service.infraestrutura.mappers;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.entities.Estoque;
 import com.fiap.rm358568.edusocrates.estoque_service.infraestrutura.persistence.entities.EstoqueEntity;
 
-public class EstoqueMapper {
+public class EstoqueEntityMapper {
 
     public static EstoqueEntity toEntity(Estoque estoque) {
         return EstoqueEntity.builder()
-                .id(estoque.getId())
                 .sku(estoque.getSku())
                 .quantidadeDisponivel(estoque.getQuantidadeDisponivel())
                 .build();

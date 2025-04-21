@@ -110,28 +110,40 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/infraestrutura/mappers/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/API/request/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/API/response/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/API/mappers/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/infraestrutura/config/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/infraestrutura/messaging/event/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/infraestrutura/persistence/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/API/exceptions/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/estoque_service/dominio/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
