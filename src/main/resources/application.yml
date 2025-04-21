@@ -1,0 +1,34 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /estoque-service
+
+spring:
+  application:
+    name: estoque-service
+
+  datasource:
+    url: jdbc:postgresql://postgres-estoque:5432/estoque_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

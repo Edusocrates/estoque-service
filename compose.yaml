@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  estoque-service:
+    build:
+      context: .
+    container_name: estoque-service
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - default
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-estoque
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: estoque_db
+    volumes:
+      - postgres_data_estoque:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"  # Evita conflito com outros serviços usando 5432
+    networks:
+      - default
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"  # UI do RabbitMQ
+    networks:
+      - default
+
+
+volumes:
+  postgres_data_estoque:
