@@ -3,6 +3,7 @@ package com.fiap.rm358568.edusocrates.estoque_service.aplicacao.handlers;
 import com.fiap.rm358568.edusocrates.estoque_service.API.exceptions.EstoqueNotFoundException;
 import com.fiap.rm358568.edusocrates.estoque_service.aplicacao.usecases.VerificarDisponibilidadeEstoqueUseCase;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.gateways.EstoqueGateway;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,11 @@ import org.springframework.stereotype.Component;
 public class VerificarDisponibilidadeEstoqueUseCaseHandler implements VerificarDisponibilidadeEstoqueUseCase {
 
 
-    private EstoqueGateway estoqueGateway;
+    private final EstoqueGateway estoqueGateway;
 
 
     @Override
+    @Transactional
     public boolean verificarDisponibilidade(String sku, int quantidade) {
         log.info("Verificando disponibilidade de estoque para SKU: {} e quantidade: {}", sku, quantidade);
         var estoque = estoqueGateway.buscarPorSku(sku)

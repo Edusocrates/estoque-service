@@ -5,6 +5,7 @@ import com.fiap.rm358568.edusocrates.estoque_service.API.exceptions.EstoqueNotFo
 import com.fiap.rm358568.edusocrates.estoque_service.aplicacao.usecases.AtualizarQuantidadeEstoqueUseCase;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.entities.Estoque;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.gateways.EstoqueGateway;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,9 +16,10 @@ import org.springframework.stereotype.Component;
 public class AtualizarQuantidadeEstoqueUseCaseHandler implements AtualizarQuantidadeEstoqueUseCase {
 
 
-    private EstoqueGateway estoqueGateway;
+    private final EstoqueGateway estoqueGateway;
 
     @Override
+    @Transactional
     public Estoque atualizarQuantidadeEstoque(String sku, int quantidade) {
         log.info("Atualizando estoque para SKU: {} com quantidade: {}", sku, quantidade);
         Estoque estoque = estoqueGateway.buscarPorSku(sku)

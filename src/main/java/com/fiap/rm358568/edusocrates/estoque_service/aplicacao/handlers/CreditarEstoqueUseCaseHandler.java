@@ -5,6 +5,7 @@ import com.fiap.rm358568.edusocrates.estoque_service.aplicacao.usecases.Creditar
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.entities.Estoque;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.gateways.EstoqueGateway;
 import com.fiap.rm358568.edusocrates.estoque_service.infraestrutura.messaging.producers.EstoqueProducer;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,12 +16,13 @@ import org.springframework.stereotype.Component;
 public class CreditarEstoqueUseCaseHandler implements CreditarEstoqueUseCase {
 
 
-    private EstoqueGateway estoqueGateway;
+    private final EstoqueGateway estoqueGateway;
 
-    private EstoqueProducer estoqueProducer;
+    private final EstoqueProducer estoqueProducer;
 
 
     @Override
+    @Transactional
     public Estoque executar(String sku, int quantidade) {
         log.info("Adicionando {} unidades ao estoque do SKU: {}", quantidade, sku);
 
@@ -29,7 +31,7 @@ public class CreditarEstoqueUseCaseHandler implements CreditarEstoqueUseCase {
 
         estoque.adicionar(quantidade);
         Estoque estoqueAtualizado = estoqueGateway.salvar(estoque);
-        estoqueProducer.enviarAtualizacaoEstoque(estoqueAtualizado);
+        //estoqueProducer.enviarAtualizacaoEstoque(estoqueAtualizado);
         log.info("Estoque atualizado: {}", estoqueAtualizado);
         return estoqueAtualizado;
     }

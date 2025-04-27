@@ -4,6 +4,7 @@ import com.fiap.rm358568.edusocrates.estoque_service.API.requests.CriarEstoqueRe
 import com.fiap.rm358568.edusocrates.estoque_service.aplicacao.usecases.CadastrarEstoqueUseCase;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.entities.Estoque;
 import com.fiap.rm358568.edusocrates.estoque_service.dominio.gateways.EstoqueGateway;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,11 +14,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CadastrarEstoqueUseCaseHandler implements CadastrarEstoqueUseCase {
 
-    private EstoqueGateway estoqueGateway;
+    private final EstoqueGateway estoqueGateway;
 
     @Override
+    @Transactional
     public Estoque cadastrar(CriarEstoqueRequest estoqueRequest) {
-        log.info("Cadastrando estoque com SKU: {}", estoqueRequest.sku());
+        log.info("iniciando Cadastro estoque com SKU: {}", estoqueRequest.sku());
+
         Estoque estoque = Estoque.builder()
                 .sku(estoqueRequest.sku())
                 .quantidadeDisponivel(estoqueRequest.quantidadeDisponivel())
